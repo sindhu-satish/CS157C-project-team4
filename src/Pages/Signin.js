@@ -1,5 +1,4 @@
-import './App.css';
-import NavigationBar from 'src/Components/NavigationBar.js';
+import NavigationBar from '../Components/NavigationBar.js';
 
 function Signin() {
   return (

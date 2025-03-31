@@ -12,9 +12,9 @@ function NavigationBar() {
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></link>
       <Navbar >
         <Container>
-          <Navbar.Brand href="/home">Food Blog</Navbar.Brand>
+          <Navbar.Brand href="/">Food Blog</Navbar.Brand>
           <Nav className="me-auto">
-              <Nav.Link href="/home">Home</Nav.Link>
+              <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/new-post">New Post</Nav.Link>
           </Nav>
         </Container>
