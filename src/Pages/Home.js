@@ -1,19 +1,15 @@
 import './App.css';
 import NavigationBar from './Components/NavigationBar';
-import PostList from './Components/PostList';
 
-function App() {
+function Home() {
   return (
     <>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></link>
-      <div className="App">
+      <div className="Home">
         <NavigationBar />
-        <header className="App-header">
-          <PostList />
-        </header>
       </div>
     </>
   );
 }
 
-export default App;
+export default Home;
