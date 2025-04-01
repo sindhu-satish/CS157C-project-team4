@@ -1,11 +1,9 @@
-import './App.css';
-import NavigationBar from './Components/NavigationBar';
-import PostList from './Components/PostList';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import Signin from './Pages/Signin';
 import Login from './Pages/Login';
 import NewPost from './Pages/NewPost';
+import PostPage from './Pages/PostPage';
 
 function App() {
   return (
@@ -16,6 +14,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/login" element={<Login />} />
         <Route path="/new-post" element={<NewPost />} />
+        <Route path="/post/:postId" element={<PostPage />} />
       </Routes>
     </>
   );

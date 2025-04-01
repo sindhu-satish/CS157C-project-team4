@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Card, Stack, Badge } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
 
-const Post = ({title, author, content, tags, date}) => {
+const Post = ({postId, title, author, content, tags, date}) => {
+    const navigate = useNavigate();
+    
     //change this later when i set up routes
     const handleClick = () => {
-        alert("Card clicked!");
+        navigate(`/post/${postId}`);
     };
 
     return (
