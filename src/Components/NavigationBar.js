@@ -2,9 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import LoginButton from './LoginButton';
 
 function NavigationBar() {
   return (
@@ -18,12 +16,15 @@ function NavigationBar() {
               <Nav.Link href="/new-post">New Post</Nav.Link>
           </Nav>
         </Container>
-        <Form style={{paddingRight: '10px'}}>
-              <Form.Control
-                type="text"
-                placeholder="Search"
-              />
-        </Form>
+        <div className="d-flex align-items-center">
+          <Form style={{paddingRight: '10px'}}>
+                <Form.Control
+                  type="text"
+                  placeholder="Search"
+                />
+          </Form>
+          <LoginButton />
+        </div>
       </Navbar>
     </>
   );

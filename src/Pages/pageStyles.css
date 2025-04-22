@@ -14,3 +14,7 @@ footer {
     color: white;
     font-size: 12px;
 }
+
+.no-arrow-dropdown .dropdown-toggle::after {
+    display: none;
+}
