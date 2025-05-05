@@ -31,6 +31,9 @@ CREATE TABLE IF NOT EXISTS comments (
     created_at TIMESTAMP       -- The timestamp of when the comment was created
 );
 
+-- Create a secondary index on recipe_id for efficient querying
+CREATE INDEX IF NOT EXISTS comments_recipe_id_idx ON comments (recipe_id);
+
 INSERT INTO users (id, username, email, password, full_name) 
 VALUES 
 (uuid(), 'sindhusat', 'sindhu@sjsu.com', 
@@ -48,7 +51,6 @@ VALUES
 (uuid(), 'ben456', 'benjamin@sjsu.com', 
 'pass1', 
 'Benjamin Le');
-
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
 VALUES (1, 'Spaghetti Bolognese', 
@@ -274,7 +276,7 @@ VALUES (uuid(), 6, 'Benjamin Lee', 'Perfect for Taco Tuesday! I added some avoca
 
 -- Sample comments for 'French Toast' recipe (recipe_id = 7)
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), 7, 'Chris Harris', 'My kids love this for breakfast! It’s sweet and filling.', '2024-02-28');
+VALUES (uuid(), 7, 'Chris Harris', 'My kids love this for breakfast! It's sweet and filling.', '2024-02-28');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
 VALUES (uuid(), 7, 'Amanda King', 'Tastes just like the ones from my childhood. Will make again!', '2024-02-28');

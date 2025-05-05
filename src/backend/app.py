@@ -26,6 +26,16 @@ def serialize_recipe(row):
         'date': str(row.date) if row.date else None
     }
 
+def serialize_comment(row):
+    """Convert a Cassandra comment row to a dictionary"""
+    return {
+        'id': str(row.id),  # UUID needs to be converted to string
+        'recipe_id': row.recipe_id,
+        'user_name': row.user_name,
+        'comment': row.comment,
+        'created_at': str(row.created_at) if row.created_at else None
+    }
+
 @app.route('/recipes', methods=['GET'])
 def get_all_recipes():
     """Fetch all recipes"""
@@ -202,11 +212,18 @@ def create_comment():
 def get_comments_for_recipe(recipe_id):
     """Fetch all comments for a specific recipe"""
     try:
+        # Try with the index first
         query = "SELECT * FROM comments WHERE recipe_id = %s"
-        rows = session.execute(query, [recipe_id])
-        comments = [dict(row) for row in rows]
-        
-        return jsonify(comments), 200
+        try:
+            rows = session.execute(query, [recipe_id])
+            comments = [serialize_comment(row) for row in rows]
+            return jsonify(comments), 200
+        except Exception as e:
+            # If the index query fails, try with ALLOW FILTERING
+            query = "SELECT * FROM comments WHERE recipe_id = %s ALLOW FILTERING"
+            rows = session.execute(query, [recipe_id])
+            comments = [serialize_comment(row) for row in rows]
+            return jsonify(comments), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

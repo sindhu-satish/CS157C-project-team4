@@ -1,17 +1,34 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import { FaUser, FaClock } from 'react-icons/fa';
 
 const Comment = ({author, content, date}) => {
     return (
-        <Card bg={'dark'} className="mb-3 shadow-sm">
-            <Card.Body>
-                <div className="d-flex align-items-center mb-2">
-                    <Card.Title className="m-0">{author}</Card.Title>
+        <Card className="mb-2 shadow-sm" style={{ borderRadius: '8px', backgroundColor: '#f8f9fa', border: 'none' }}>
+            <Card.Body className="p-2">
+                <div className="d-flex align-items-center mb-1">
+                    <div className="d-flex align-items-center">
+                        <div className="comment-avatar">
+                            <FaUser size={14} className="text-primary" />
+                        </div>
+                        <Card.Title className="mb-0 ms-2" style={{ color: '#2c3e50', fontSize: '0.9rem', fontWeight: '600' }}>
+                            {author}
+                        </Card.Title>
+                    </div>
+                    <div className="ms-auto d-flex align-items-center text-muted">
+                        <FaClock size={11} className="me-1" />
+                        <small style={{ fontSize: '0.8rem' }}>{date}</small>
+                    </div>
                 </div>
-                <Card.Text>{content}</Card.Text>
-                <Card.Footer className="text-muted" style={{ fontSize: '15px' }}>
-                    {date}
-                </Card.Footer>
+                <Card.Text style={{ 
+                    color: '#495057',
+                    fontSize: '0.9rem',
+                    lineHeight: '1.4',
+                    marginBottom: 0,
+                    whiteSpace: 'pre-wrap'
+                }}>
+                    {content}
+                </Card.Text>
             </Card.Body>
         </Card>
     );
