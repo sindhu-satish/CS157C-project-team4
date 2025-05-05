@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS recipes (
     ingredients LIST<TEXT>,  -- A list of ingredients required for the recipe
     instructions LIST<TEXT>,  -- A list of instructions for preparing the recipe
     likes INT,           -- The number of likes for this recipe
-    date DATE            -- The date the recipe was created
+    date DATE,           -- The date the recipe was created
+    image_path TEXT      -- The path to the recipe's image
 );
 
 -- Create the 'comments' table if it doesn't already exist
@@ -52,7 +53,7 @@ VALUES
 'pass1', 
 'Benjamin Le');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (1, 'Spaghetti Bolognese', 
     ['400g spaghetti', '500g ground beef', '2 cans (800g) tomato sauce', '1 onion, diced', '2 cloves garlic, minced', '2 tbsp olive oil', 'salt and pepper to taste'],
     ['Boil water in a large pot and cook spaghetti according to package instructions.',
@@ -62,9 +63,9 @@ VALUES (1, 'Spaghetti Bolognese',
      'Pour in tomato sauce and simmer for 20 minutes.',
      'Season with salt and pepper.',
      'Drain spaghetti and mix with the sauce.',
-     'Serve hot with grated parmesan cheese.'], 125, '2024-01-15');
+     'Serve hot with grated parmesan cheese.'], 125, '2024-01-15', 'static/images/spaghetti-bolognese.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (2, 'Pancakes', 
     ['200g all-purpose flour', '2 eggs', '300ml milk', '2 tbsp sugar', '1 tsp baking powder', '1/2 tsp salt', '2 tbsp butter, melted', 'maple syrup for serving'],
     ['In a large bowl, whisk together flour, sugar, baking powder, and salt.',
@@ -73,9 +74,9 @@ VALUES (2, 'Pancakes',
      'Heat a lightly oiled griddle or frying pan over medium heat.',
      'Pour 1/4 cup of batter for each pancake.',
      'Cook until bubbles form and edges are dry, then flip and cook until browned.',
-     'Serve hot with maple syrup.'], 212, '2024-02-20');
+     'Serve hot with maple syrup.'], 212, '2024-02-20', 'static/images/pancakes.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (3, 'Chicken Curry', 
     ['500g chicken breast, cubed', '2 tbsp curry powder', '400ml coconut milk', '1 onion, chopped', '2 cloves garlic, minced', '1 tbsp ginger, grated', '2 tbsp vegetable oil', 'salt to taste'],
     ['Heat oil in a large pot over medium heat.',
@@ -85,9 +86,9 @@ VALUES (3, 'Chicken Curry',
      'Stir in curry powder and cook for 2 minutes.',
      'Pour in coconut milk and bring to a simmer.',
      'Cover and cook for 20-25 minutes until chicken is tender.',
-     'Season with salt and serve with rice.'], 368, '2024-03-05');
+     'Season with salt and serve with rice.'], 368, '2024-03-05', 'static/images/chicken-curry.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (4, 'Grilled Cheese Sandwich', 
     ['4 slices of bread', '100g cheddar cheese, sliced', '2 tbsp butter, softened', '1 tsp garlic powder (optional)'],
     ['Butter one side of each bread slice.',
@@ -95,9 +96,9 @@ VALUES (4, 'Grilled Cheese Sandwich',
      'Heat a skillet over medium heat.',
      'Place sandwich in skillet and cook until golden brown, about 2-3 minutes.',
      'Flip and cook the other side until golden and cheese is melted.',
-     'Cut in half and serve hot.'], 97, '2024-01-22');
+     'Cut in half and serve hot.'], 97, '2024-01-22', 'static/images/grilled-cheese.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (5, 'Caesar Salad', 
     ['1 head romaine lettuce, chopped', '100g croutons', '50g parmesan cheese, grated', '100ml caesar dressing', '2 tbsp lemon juice', '1 clove garlic, minced', 'salt and pepper to taste'],
     ['Wash and dry romaine lettuce thoroughly.',
@@ -106,9 +107,9 @@ VALUES (5, 'Caesar Salad',
      'Toss the lettuce with caesar dressing until evenly coated.',
      'Add croutons and grated parmesan cheese.',
      'Season with salt and pepper to taste.',
-     'Serve immediately.'], 143, '2024-02-10');
+     'Serve immediately.'], 143, '2024-02-10', 'static/images/caesar-salad.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (6, 'Beef Tacos', 
     ['8 corn tortillas', '500g ground beef', '1 packet taco seasoning', '1 onion, diced', '2 tomatoes, diced', '100g lettuce, shredded', '100g cheddar cheese, grated', '2 tbsp vegetable oil', 'sour cream and salsa for serving'],
     ['Heat oil in a large skillet over medium heat.',
@@ -118,9 +119,9 @@ VALUES (6, 'Beef Tacos',
      'Warm tortillas according to package instructions.',
      'Fill each tortilla with beef mixture.',
      'Top with lettuce, tomatoes, cheese, sour cream, and salsa.',
-     'Serve immediately.'], 259, '2024-03-15');
+     'Serve immediately.'], 259, '2024-03-15', 'static/images/beef-tacos.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (7, 'French Toast', 
     ['8 slices of bread', '4 eggs', '200ml milk', '1 tsp vanilla extract', '1 tsp ground cinnamon', '2 tbsp sugar', '2 tbsp butter', 'maple syrup for serving'],
     ['In a shallow bowl, whisk together eggs, milk, vanilla, cinnamon, and sugar.',
@@ -128,9 +129,9 @@ VALUES (7, 'French Toast',
      'Dip each bread slice into the egg mixture, coating both sides.',
      'Place bread on the hot skillet and cook until golden brown, about 2-3 minutes per side.',
      'Repeat with remaining bread slices.',
-     'Serve hot with maple syrup and fresh fruit if desired.'], 185, '2024-02-28');
+     'Serve hot with maple syrup and fresh fruit if desired.'], 185, '2024-02-28', 'static/images/french-toast.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (8, 'Fried Rice', 
     ['300g cooked rice (preferably day-old)', '2 eggs', '100g mixed vegetables (carrots, peas, corn)', '2 cloves garlic, minced', '2 tbsp soy sauce', '1 tbsp sesame oil', '2 tbsp vegetable oil', '2 spring onions, chopped', 'salt and pepper to taste'],
     ['Heat vegetable oil in a large wok or skillet over high heat.',
@@ -141,9 +142,9 @@ VALUES (8, 'Fried Rice',
      'Pour in soy sauce and sesame oil, mix well.',
      'Cook for another 2-3 minutes, stirring constantly.',
      'Season with salt and pepper, garnish with spring onions.',
-     'Serve hot.'], 472, '2024-03-01');
+     'Serve hot.'], 472, '2024-03-01', 'static/images/fried-rice.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (9, 'Tomato Soup', 
     ['1kg ripe tomatoes, chopped', '1 onion, diced', '2 cloves garlic, minced', '2 tbsp olive oil', '500ml vegetable stock', '100ml heavy cream', '1 tsp sugar', 'salt and pepper to taste', 'fresh basil for garnish'],
     ['Heat olive oil in a large pot over medium heat.',
@@ -155,9 +156,9 @@ VALUES (9, 'Tomato Soup',
      'Use an immersion blender to puree the soup until smooth.',
      'Stir in heavy cream and sugar.',
      'Season with salt and pepper.',
-     'Garnish with fresh basil and serve hot.'], 69, '2024-01-30');
+     'Garnish with fresh basil and serve hot.'], 69, '2024-01-30', 'static/images/tomato-soup.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (10, 'Mac and Cheese', 
     ['300g elbow macaroni', '200g cheddar cheese, grated', '100g mozzarella cheese, grated', '50g parmesan cheese, grated', '500ml milk', '50g butter', '50g all-purpose flour', '1/2 tsp mustard powder', 'salt and pepper to taste', 'breadcrumbs for topping (optional)'],
     ['Preheat oven to 180°C (350°F).',
@@ -170,9 +171,9 @@ VALUES (10, 'Mac and Cheese',
      'Combine cheese sauce with cooked macaroni.',
      'Transfer to a baking dish and top with breadcrumbs if desired.',
      'Bake for 20-25 minutes until golden and bubbly.',
-     'Let cool slightly before serving.'], 311, '2024-02-15');
+     'Let cool slightly before serving.'], 311, '2024-02-15', 'static/images/mac-and-cheese.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (11, 'Omelette', 
     ['3 eggs', '2 tbsp milk', '50g cheese, grated', '50g ham, diced', '1 tbsp butter', 'salt and pepper to taste', 'fresh herbs (optional)'],
     ['Beat eggs and milk together in a bowl, season with salt and pepper.',
@@ -182,9 +183,9 @@ VALUES (11, 'Omelette',
      'When eggs are almost set, fold the omelette in half.',
      'Cook for another minute until cheese melts.',
      'Slide onto a plate and garnish with fresh herbs.',
-     'Serve immediately.'], 248, '2024-03-10');
+     'Serve immediately.'], 248, '2024-03-10', 'static/images/omelette.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (12, 'BBQ Chicken Wings', 
     ['1kg chicken wings', '200ml BBQ sauce', '2 tbsp olive oil', '1 tsp garlic powder', '1 tsp onion powder', '1/2 tsp paprika', 'salt and pepper to taste'],
     ['Preheat oven to 200°C (400°F).',
@@ -195,9 +196,9 @@ VALUES (12, 'BBQ Chicken Wings',
      'Bake for 40-45 minutes, flipping halfway through.',
      'Remove from oven and toss wings in BBQ sauce.',
      'Return to oven for 5 minutes to set the sauce.',
-     'Serve hot with extra BBQ sauce for dipping.'], 384, '2024-02-25');
+     'Serve hot with extra BBQ sauce for dipping.'], 384, '2024-02-25', 'static/images/bbq-wings.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (13, 'Veggie Stir-Fry', 
     ['200g broccoli florets', '2 carrots, sliced', '1 bell pepper, sliced', '100g snow peas', '2 cloves garlic, minced', '1 tbsp ginger, grated', '3 tbsp soy sauce', '1 tbsp sesame oil', '2 tbsp vegetable oil', '1 tsp cornstarch', '2 tbsp water'],
     ['Mix cornstarch with water to make a slurry, set aside.',
@@ -206,9 +207,9 @@ VALUES (13, 'Veggie Stir-Fry',
      'Add vegetables and stir-fry for 3-4 minutes.',
      'Pour in soy sauce and sesame oil.',
      'Add cornstarch slurry and cook until sauce thickens.',
-     'Serve hot over rice or noodles.'], 193, '2024-03-08');
+     'Serve hot over rice or noodles.'], 193, '2024-03-08', 'static/images/veggie-stirfry.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (14, 'Baked Salmon', 
     ['4 salmon fillets (about 150g each)', '2 tbsp olive oil', '1 lemon, sliced', '2 cloves garlic, minced', '1 tsp dried dill', 'salt and pepper to taste', 'fresh parsley for garnish'],
     ['Preheat oven to 200°C (400°F).',
@@ -217,9 +218,9 @@ VALUES (14, 'Baked Salmon',
      'Drizzle with olive oil and season with garlic, dill, salt, and pepper.',
      'Top each fillet with lemon slices.',
      'Bake for 12-15 minutes until salmon flakes easily with a fork.',
-     'Garnish with fresh parsley and serve hot.'], 423, '2024-02-18');
+     'Garnish with fresh parsley and serve hot.'], 423, '2024-02-18', 'static/images/baked-salmon.jpg');
 
-INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
+INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
 VALUES (15, 'Chili', 
     ['500g ground beef', '1 onion, diced', '2 cloves garlic, minced', '2 cans (400g each) kidney beans', '2 cans (400g each) diced tomatoes', '2 tbsp chili powder', '1 tsp cumin', '1 tsp paprika', '2 tbsp vegetable oil', 'salt and pepper to taste', 'grated cheese and sour cream for serving'],
     ['Heat oil in a large pot over medium heat.',
@@ -230,7 +231,7 @@ VALUES (15, 'Chili',
      'Add diced tomatoes and kidney beans with their liquid.',
      'Bring to a boil, then reduce heat and simmer for 30 minutes.',
      'Season with salt and pepper.',
-     'Serve hot with grated cheese and sour cream.'], 337, '2024-03-12');
+     'Serve hot with grated cheese and sour cream.'], 337, '2024-03-12', 'static/images/chili.jpg');
 
 -- Sample comments for 'Spaghetti Bolognese' recipe (recipe_id = 1)
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
@@ -276,7 +277,7 @@ VALUES (uuid(), 6, 'Benjamin Lee', 'Perfect for Taco Tuesday! I added some avoca
 
 -- Sample comments for 'French Toast' recipe (recipe_id = 7)
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), 7, 'Chris Harris', 'My kids love this for breakfast! It's sweet and filling.', '2024-02-28');
+VALUES (uuid(), 7, 'Chris Harris', 'My kids love this for breakfast! It is sweet and filling.', '2024-02-28');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
 VALUES (uuid(), 7, 'Amanda King', 'Tastes just like the ones from my childhood. Will make again!', '2024-02-28');

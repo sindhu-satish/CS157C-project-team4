@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavigationBar from '../Components/NavigationBar.js';
 import { useParams } from 'react-router-dom';
-import { Container, Stack, Badge, ListGroup, Form, Button, Row, Col, Alert, Spinner, FormCheck } from "react-bootstrap";
+import { Container, Stack, Badge, Form, Button, Alert, Spinner, FormCheck, Row, Col } from "react-bootstrap";
 import './pageStyles.css';
 import Comment from "../Components/Comment.js";
 
@@ -35,6 +35,8 @@ const PostPage = () => {
                     throw new Error('Recipe not found');
                 }
                 const recipeData = await recipeResponse.json();
+                console.log('Recipe data:', recipeData);
+                console.log('Image path:', recipeData.image_path);
                 setRecipe(recipeData);
 
                 // Fetch comments
@@ -132,21 +134,49 @@ const PostPage = () => {
             <NavigationBar />
             <div className="main-screen">
                 <Container fluid>
-                    <h1>{recipe.title}</h1>
-                    <Stack direction="horizontal" gap={3}>
-                        <div className="h-2">Posted on {recipe.date}</div>
-                    </Stack>
-                    <Stack direction="horizontal" gap={3} className="mt-3">
-                        {recipe.ingredients.map((ingredient, index) => (
-                            <Badge key={index} pill bg="light" text="dark" className="me-2" style={{ backgroundColor: '#f8f9fa' }}>
-                                {ingredient}
-                            </Badge>
-                        ))}
-                    </Stack>
-                    <div className="p-2 mt-4">
-                        <h4>Instructions:</h4>
-                        <p>{recipe.instructions}</p>
-                    </div>
+                    <Row>
+                        <Col md={8}>
+                            <h1>{recipe.title}</h1>
+                            <Stack direction="horizontal" gap={3}>
+                                <div className="h-2">Posted on {recipe.date}</div>
+                            </Stack>
+                            <Stack direction="horizontal" gap={3} className="mt-3">
+                                {recipe.ingredients.map((ingredient, index) => (
+                                    <Badge key={index} pill bg="light" text="dark" className="me-2" style={{ backgroundColor: '#f8f9fa' }}>
+                                        {ingredient}
+                                    </Badge>
+                                ))}
+                            </Stack>
+                            <div className="p-2 mt-4">
+                                <h4>Instructions:</h4>
+                                <div className="instructions-list">
+                                    {recipe.instructions.map((step, index) => (
+                                        <div key={index} className="instruction-step mb-2">
+                                            <span className="step-number me-2">{index + 1}.</span>
+                                            {step}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col md={4} className="d-flex align-items-center justify-content-center">
+                            <img 
+                                src={recipe.image_path ? `${API_URL}/${recipe.image_path}` : `${API_URL}/static/images/default-recipe.jpg`}
+                                alt={recipe.title}
+                                style={{
+                                    width: '100%',
+                                    height: '400px',
+                                    objectFit: 'cover',
+                                    borderRadius: '8px',
+                                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                }}
+                                onError={(e) => {
+                                    console.error('Image failed to load:', e);
+                                    e.target.src = `${API_URL}/static/images/default-recipe.jpg`;
+                                }}
+                            />
+                        </Col>
+                    </Row>
                 </Container>
                 <Container fluid className="mt-3">
                     <div className="comments-section" style={{ maxWidth: '450px', marginLeft: '0' }}>

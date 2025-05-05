@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
@@ -7,7 +7,11 @@ from datetime import datetime
 import uuid
 import bcrypt
 
-app = Flask(__name__)
+# Get the absolute path to the static directory in the root folder
+static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'static'))
+print(f"Static directory path: {static_dir}")  # Debug print
+
+app = Flask(__name__, static_folder=static_dir)
 CORS(app, origins=["http://localhost:3000", "http://localhost:5000", "http://127.0.0.1:5000"])
 
 
@@ -17,14 +21,18 @@ session = cluster.connect('cs157')
 
 def serialize_recipe(row):
     """Convert a Cassandra row to a dictionary"""
-    return {
+    recipe = {
         'id': row.id,
         'title': row.title,
         'ingredients': row.ingredients,
         'instructions': row.instructions,
         'likes': row.likes,
-        'date': str(row.date) if row.date else None
+        'date': str(row.date) if row.date else None,
+        'image_path': row.image_path
     }
+    print("Serialized recipe:", recipe)
+    print("Instructions type:", type(recipe['instructions']))
+    return recipe
 
 def serialize_comment(row):
     """Convert a Cassandra comment row to a dictionary"""
@@ -342,6 +350,16 @@ def signup():
         }), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    """Serve static files from the static directory"""
+    print(f"Serving static file: {filename} from {app.static_folder}")  # Debug print
+    try:
+        return send_from_directory(app.static_folder, filename)
+    except Exception as e:
+        print(f"Error serving static file: {e}")  # Debug print
+        return jsonify({"error": str(e)}), 404
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001, host='0.0.0.0') 

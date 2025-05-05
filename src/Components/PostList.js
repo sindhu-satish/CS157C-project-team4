@@ -50,6 +50,7 @@ const PostList = () => {
                                 content={post.instructions}
                                 tags={post.ingredients || []}
                                 date={post.date || ""}
+                                image_path={post.image_path}
                             />
                         </div>
                     ))}
