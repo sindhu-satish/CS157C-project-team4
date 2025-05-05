@@ -10,7 +10,7 @@ const PostPage = () => {
     const { postId } = useParams();  
 
     const [dummyPostInfo, setDummyPostInfo] = useState([]);
-    const [comment, setComment] = useState('Type something...');
+    const [comment, setComment] = useState('');
 
     useEffect(() => {
         setDummyPostInfo(data);
