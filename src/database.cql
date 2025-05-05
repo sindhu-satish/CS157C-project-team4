@@ -2,13 +2,23 @@ USE cs157;
 
 DROP TABLE IF EXISTS recipes;
 
+-- Create the 'recipes' table if it doesn't already exist
 CREATE TABLE IF NOT EXISTS recipes (
-    id INT PRIMARY KEY,
-    title TEXT,
-    ingredients LIST<TEXT>,
-    instructions LIST<TEXT>,
-    likes INT,
-    date DATE
+    id INT PRIMARY KEY,  -- The unique ID for each recipe
+    title TEXT,          -- The title of the recipe
+    ingredients LIST<TEXT>,  -- A list of ingredients required for the recipe
+    instructions LIST<TEXT>,  -- A list of instructions for preparing the recipe
+    likes INT,           -- The number of likes for this recipe
+    date DATE            -- The date the recipe was created
+);
+
+-- Create the 'comments' table if it doesn't already exist
+CREATE TABLE IF NOT EXISTS comments (
+    id UUID PRIMARY KEY,        -- The unique ID for each comment
+    recipe_id INT,              -- The ID of the recipe this comment is linked to
+    user_name TEXT,             -- The user who made the comment
+    comment TEXT,               -- The content of the comment
+    created_at TIMESTAMP       -- The timestamp of when the comment was created
 );
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
@@ -190,3 +200,109 @@ VALUES (15, 'Chili',
      'Bring to a boil, then reduce heat and simmer for 30 minutes.',
      'Season with salt and pepper.',
      'Serve hot with grated cheese and sour cream.'], 337, '2024-03-12');
+
+-- Sample comments for 'Spaghetti Bolognese' recipe (recipe_id = 1)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 1, 'John Doe', 'This recipe was fantastic! My family loved it!', '2024-01-16');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 1, 'Jane Smith', 'A classic! I added a bit of chili flakes for extra kick.', '2024-01-16');
+
+-- Sample comments for 'Pancakes' recipe (recipe_id = 2)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 2, 'Emily Johnson', 'Delicious pancakes! Perfect for a weekend breakfast.', '2024-02-21');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 2, 'Michael Green', 'Fluffy and sweet! I used almond milk for a dairy-free option.', '2024-02-21');
+
+-- Sample comments for 'Chicken Curry' recipe (recipe_id = 3)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 3, 'Sarah Brown', 'This curry was amazing! The coconut milk made it so creamy!', '2024-03-06');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 3, 'David White', 'Very flavorful! I added some bell peppers and it was perfect!', '2024-03-06');
+
+-- Sample comments for 'Grilled Cheese Sandwich' recipe (recipe_id = 4)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 4, 'Laura Wilson', 'Simple but delicious! A great go-to for lunch.', '2024-01-23');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 4, 'Jack Harris', 'I love grilled cheese! The garlic powder made it even better.', '2024-01-23');
+
+-- Sample comments for 'Caesar Salad' recipe (recipe_id = 5)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 5, 'Olivia Thompson', 'This salad was very fresh! I added grilled chicken for extra protein.', '2024-02-11');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 5, 'Ryan Clark', 'Great recipe, I used homemade dressing instead of store-bought.', '2024-02-11');
+
+-- Sample comments for 'Beef Tacos' recipe (recipe_id = 6)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 6, 'Ella Lewis', 'These tacos were fantastic! So quick and easy to make.', '2024-03-15');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 6, 'Benjamin Lee', 'Perfect for Taco Tuesday! I added some avocado for extra flavor.', '2024-03-15');
+
+-- Sample comments for 'French Toast' recipe (recipe_id = 7)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 7, 'Chris Harris', 'My kids love this for breakfast! It’s sweet and filling.', '2024-02-28');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 7, 'Amanda King', 'Tastes just like the ones from my childhood. Will make again!', '2024-02-28');
+
+-- Sample comments for 'Fried Rice' recipe (recipe_id = 8)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 8, 'Jacob Scott', 'Quick and easy, and the sesame oil adds a great flavor.', '2024-03-01');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 8, 'Sophia Mitchell', 'Delicious! I used leftover rice, and it worked perfectly.', '2024-03-01');
+
+-- Sample comments for 'Tomato Soup' recipe (recipe_id = 9)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 9, 'William Young', 'This soup was so comforting! Perfect for a cold day.', '2024-01-30');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 9, 'Grace Adams', 'The perfect tomato soup. I added basil, and it was amazing!', '2024-01-30');
+
+-- Sample comments for 'Mac and Cheese' recipe (recipe_id = 10)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 10, 'Mason Evans', 'This mac and cheese was cheesy and delicious! Will make again.', '2024-02-15');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 10, 'Harper Nelson', 'Loved it! I used a blend of different cheeses, and it was fantastic.', '2024-02-15');
+
+-- Sample comments for 'Omelette' recipe (recipe_id = 11)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 11, 'Liam Perez', 'I made this omelette for breakfast and it was perfect!', '2024-03-10');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 11, 'Charlotte Carter', 'Great omelette! I added some spinach for extra flavor.', '2024-03-10');
+
+-- Sample comments for 'BBQ Chicken Wings' recipe (recipe_id = 12)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 12, 'Daniel Reed', 'These wings were juicy and flavorful! Perfect for BBQ nights.', '2024-02-25');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 12, 'Ella Foster', 'So tasty! I used a little extra BBQ sauce for more flavor.', '2024-02-25');
+
+-- Sample comments for 'Veggie Stir-Fry' recipe (recipe_id = 13)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 13, 'Aiden Morris', 'This stir-fry was full of flavor! Easy and healthy.', '2024-03-08');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 13, 'Scarlett Stewart', 'Great for meal prep! Loved the combination of vegetables.', '2024-03-08');
+
+-- Sample comments for 'Baked Salmon' recipe (recipe_id = 14)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 14, 'Zoe Ross', 'So delicious! The salmon was perfectly cooked, and the lemon was a great touch.', '2024-02-18');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 14, 'Lucas Bell', 'This was an easy yet elegant dish. I loved the freshness of the salmon.', '2024-02-18');
+
+-- Sample comments for 'Chili' recipe (recipe_id = 15)
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 15, 'Ethan Turner', 'Delicious chili! The flavors were perfect for a cozy evening.', '2024-03-12');
+
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 15, 'Mia Harris', 'Very hearty and flavorful! I added extra beans for more texture.', '2024-03-12');
+
