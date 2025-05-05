@@ -4,6 +4,8 @@ from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 import os
 from datetime import datetime
+import uuid
+import bcrypt
 
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000", "http://localhost:5000", "http://127.0.0.1:5000"])
@@ -115,7 +117,7 @@ def get_recipe(recipe_id):
         if not row:
             return jsonify({"error": "Recipe not found"}), 404
             
-        return jsonify(row._asdict()), 200
+        return jsonify(serialize_recipe(row)), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -247,6 +249,80 @@ def delete_comment(comment_id):
         session.execute(query, [comment_id])
         
         return jsonify({"message": "Comment deleted successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/auth/login', methods=['POST'])
+def login():
+    """Handle user login"""
+    try:
+        data = request.json
+        username = data.get('username')
+        password = data.get('password')
+        
+        if not username or not password:
+            return jsonify({"error": "Username and password are required"}), 400
+        
+        # Query the user from the database
+        query = "SELECT * FROM users WHERE username = %s ALLOW FILTERING"
+        user = session.execute(query, [username]).one()
+        
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+        
+        # Verify password
+        if user.password != password:  # In production, use proper password hashing
+            return jsonify({"error": "Invalid password"}), 401
+        
+        return jsonify({
+            "message": "Login successful",
+            "user": {
+                "id": str(user.id),
+                "username": user.username,
+                "email": user.email,
+                "full_name": user.full_name
+            }
+        }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/auth/signup', methods=['POST'])
+def signup():
+    """Handle user registration"""
+    try:
+        data = request.json
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+        full_name = data.get('full_name')
+        
+        if not all([username, email, password, full_name]):
+            return jsonify({"error": "All fields are required"}), 400
+        
+        # Check if username already exists
+        query = "SELECT * FROM users WHERE username = %s ALLOW FILTERING"
+        existing_user = session.execute(query, [username]).one()
+        
+        if existing_user:
+            return jsonify({"error": "Username already exists"}), 409
+        
+        # Create new user
+        user_id = uuid.uuid4()
+        query = """
+        INSERT INTO users (id, username, email, password, full_name)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        session.execute(query, [user_id, username, email, password, full_name])
+        
+        return jsonify({
+            "message": "User registered successfully",
+            "user": {
+                "id": str(user_id),
+                "username": username,
+                "email": email,
+                "full_name": full_name
+            }
+        }), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
