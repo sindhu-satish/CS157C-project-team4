@@ -1,6 +1,16 @@
 USE cs157;
 
 DROP TABLE IF EXISTS recipes;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS comments;
+
+CREATE TABLE IF NOT EXISTS users (
+    id UUID PRIMARY KEY,
+    username TEXT,
+    email TEXT,
+    password TEXT,
+    full_name TEXT
+);
 
 -- Create the 'recipes' table if it doesn't already exist
 CREATE TABLE IF NOT EXISTS recipes (
@@ -20,6 +30,25 @@ CREATE TABLE IF NOT EXISTS comments (
     comment TEXT,               -- The content of the comment
     created_at TIMESTAMP       -- The timestamp of when the comment was created
 );
+
+INSERT INTO users (id, username, email, password, full_name) 
+VALUES 
+(uuid(), 'sindhusat', 'sindhu@sjsu.com', 
+'pass1', 
+'Sindhu Satish');
+
+INSERT INTO users (id, username, email, password, full_name) 
+VALUES 
+(uuid(), 'alicia123', 'alicia@sjsu.com', 
+'pass1', 
+'Alicia Shi');
+
+INSERT INTO users (id, username, email, password, full_name) 
+VALUES 
+(uuid(), 'ben456', 'benjamin@sjsu.com', 
+'pass1', 
+'Benjamin Le');
+
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
 VALUES (1, 'Spaghetti Bolognese', 
