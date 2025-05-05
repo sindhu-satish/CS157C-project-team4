@@ -153,5 +153,91 @@ def delete_recipe(recipe_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+@app.route('/comments', methods=['POST'])
+def create_comment():
+    """Create a new comment for a recipe"""
+    try:
+        data = request.json
+        required_fields = ['recipe_id', 'user_name', 'comment']
+        
+        if not all(field in data for field in required_fields):
+            return jsonify({"error": "Missing required fields"}), 400
+        
+        # Generate a unique ID for the comment
+        comment_id = uuid.uuid4()
+        
+        # Insert the new comment into the comments table
+        query = """
+        INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        params = [
+            comment_id,
+            data['recipe_id'],
+            data['user_name'],
+            data['comment'],
+            datetime.now()
+        ]
+        
+        session.execute(query, params)
+        return jsonify({"message": "Comment created successfully", "id": comment_id}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/comments/<int:recipe_id>', methods=['GET'])
+def get_comments_for_recipe(recipe_id):
+    """Fetch all comments for a specific recipe"""
+    try:
+        query = "SELECT * FROM comments WHERE recipe_id = %s"
+        rows = session.execute(query, [recipe_id])
+        comments = [dict(row) for row in rows]
+        
+        return jsonify(comments), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/comments/<uuid:comment_id>', methods=['PUT'])
+def update_comment(comment_id):
+    """Update a specific comment"""
+    try:
+        data = request.json
+        query = "SELECT * FROM comments WHERE id = %s"
+        existing_comment = session.execute(query, [comment_id]).one()
+        
+        if not existing_comment:
+            return jsonify({"error": "Comment not found"}), 404
+        
+        # Update the comment text
+        comment = data.get('comment', existing_comment.comment)
+        
+        query = """
+        UPDATE comments 
+        SET comment = %s 
+        WHERE id = %s
+        """
+        session.execute(query, [comment, comment_id])
+        
+        return jsonify({"message": "Comment updated successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/comments/<uuid:comment_id>', methods=['DELETE'])
+def delete_comment(comment_id):
+    """Delete a specific comment"""
+    try:
+        query = "SELECT * FROM comments WHERE id = %s"
+        existing_comment = session.execute(query, [comment_id]).one()
+        
+        if not existing_comment:
+            return jsonify({"error": "Comment not found"}), 404
+        
+        query = "DELETE FROM comments WHERE id = %s"
+        session.execute(query, [comment_id])
+        
+        return jsonify({"message": "Comment deleted successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000) 
