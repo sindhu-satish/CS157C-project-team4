@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import NavigationBar from '../Components/NavigationBar.js';
 import { useParams } from 'react-router-dom';
 import data from "../data.json";
-import { Container, Stack, Badge} from "react-bootstrap";
+import { Container, Stack, Badge, ListGroup} from "react-bootstrap";
 import './pageStyles.css';
+import Comment from "../Components/Comment.js";
 
 const PostPage = () => {
     const { postId } = useParams();  
@@ -38,6 +39,16 @@ const PostPage = () => {
                   {postContent.content}
                 </div>
               </Container>
+              <h2><br/>Comments</h2>
+              <ListGroup>
+                    {postContent.comments.map((comment, index) => (
+                        <Comment
+                            author={comment.author}
+                            content={comment.content}
+                            date={comment.date}
+                        />
+                    ))}
+              </ListGroup>
               <footer >Post ID: {postId}</footer>
             </div>
         </>

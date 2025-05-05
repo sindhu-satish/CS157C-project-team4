@@ -5,6 +5,20 @@
         "author": "Bowling for Soup",
         "content": "She's seen all the classics, she knows every line Breakfast Club, Pretty In Pink, even St. Elmo's Fire She rocked out to Wham, not a big Limp Bizkit fan Thought she'd get a hand on a member of Duran Duran",
         "tags": ["Pop Punk", "Music", "Bowling for Soup"],
+        "comments": [
+                {
+                    "commentId": 0,
+                    "author": "Fred Durst",
+                    "content": "Why doesn't she like Limp Biskit?",
+                    "date": "1 day ago"
+                },
+                {
+                    "commentId": 1,
+                    "author": "BowlingForSoupFan1",
+                    "content": "Bowling for Soup is the best!",
+                    "date": "2 days ago"
+                }
+            ],
         "date": "2 days ago"
     },
     {
@@ -13,6 +27,20 @@
         "author": "MCR",
         "content": "When I was a young boy My father took me into the city To see a marching band He said, \"Son, when you grow up Would you be the savior of the broken The beaten and the damned?\"",
         "tags": ["Emo", "MCR", "WTTBP"],
+        "comments": [
+                {
+                    "commentId": 0,
+                    "author": "MCR1235",
+                    "content": "i get ptsd from that first note",
+                    "date": "1 day ago"
+                },
+                {
+                    "commentId": 1,
+                    "author": "username_5",
+                    "content": "Cool",
+                    "date": "2 days ago"
+                }
+            ],
         "date": "1 week ago"
     },
     {
@@ -21,6 +49,20 @@
         "author": "blink-182",
         "content": "Where are you? And I'm so sorry I cannot sleep, I cannot dream tonight I need somebody and always This sick, strange darkness Comes creeping on, so haunting every time And as I stared, I counted The webs from all the spiders",
         "tags": ["blink-182", "whereareyew", "inmyyead"],
+        "comments": [
+                {
+                    "commentId": 0,
+                    "author": "AliciaShi",
+                    "content": "I know this song by heart",
+                    "date": "1 day ago"
+                },
+                {
+                    "commentId": 1,
+                    "author": "aliciascoworker",
+                    "content": "bro why are you so emo",
+                    "date": "2 days ago"
+                }
+            ],
         "date": "2 weeks ago"
     },
     {
@@ -29,6 +71,20 @@
         "author": "Breaking Benjamin",
         "content": "You had to have it all Well have you had enough? You greedy little bastard You will get what you deserve When all is said and done I will be the one To leave you in your misery And hate what you've become",
         "tags": ["Divorced", "Rock", "Dad"],
+        "comments": [
+                {
+                    "commentId": 0,
+                    "author": "probablyANavyVetOrSomething",
+                    "content": "Ever since my wife divorced me I've been listening to this on repeat",
+                    "date": "1 day ago"
+                },
+                {
+                    "commentId": 1,
+                    "author": "AnotherDivorcedDad",
+                    "content": "i wonder if the kids miss me",
+                    "date": "2 days ago"
+                }
+            ],
         "date": "3 weeks ago"
     }
 ]

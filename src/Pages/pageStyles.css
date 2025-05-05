@@ -12,7 +12,7 @@ footer {
     bottom: 10px;
     right: 10px;
     color: white;
-    font-size: 12px;
+    font-size: 15px;
 }
 
 .no-arrow-dropdown .dropdown-toggle::after {
