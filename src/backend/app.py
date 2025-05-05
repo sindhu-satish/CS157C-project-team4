@@ -6,12 +6,23 @@ import os
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["http://localhost:3000", "http://localhost:5000", "http://127.0.0.1:5000"])
 
 
 auth_provider = PlainTextAuthProvider(username='cassandra', password='cassandra')
 cluster = Cluster(['localhost'], auth_provider=auth_provider)
 session = cluster.connect('cs157')
+
+def serialize_recipe(row):
+    """Convert a Cassandra row to a dictionary"""
+    return {
+        'id': row.id,
+        'title': row.title,
+        'ingredients': row.ingredients,
+        'instructions': row.instructions,
+        'likes': row.likes,
+        'date': str(row.date) if row.date else None
+    }
 
 @app.route('/recipes', methods=['GET'])
 def get_all_recipes():
@@ -19,7 +30,7 @@ def get_all_recipes():
     try:
         query = "SELECT * FROM recipes"
         rows = session.execute(query)
-        recipes = [dict(row) for row in rows]
+        recipes = [serialize_recipe(row) for row in rows]
         return jsonify(recipes), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -30,7 +41,7 @@ def get_sorted_recipes():
     try:
         query = "SELECT * FROM recipes ORDER BY likes DESC"
         rows = session.execute(query)
-        recipes = [dict(row) for row in rows]
+        recipes = [row._asdict() for row in rows]
         return jsonify(recipes), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -48,7 +59,7 @@ def filter_recipes():
         params = [ingredients[0]]
         
         rows = session.execute(query, params)
-        recipes = [dict(row) for row in rows]
+        recipes = [row._asdict() for row in rows]
         
         # Filter recipes that contain all specified ingredients
         filtered_recipes = []
@@ -104,7 +115,7 @@ def get_recipe(recipe_id):
         if not row:
             return jsonify({"error": "Recipe not found"}), 404
             
-        return jsonify(dict(row)), 200
+        return jsonify(row._asdict()), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -154,4 +165,4 @@ def delete_recipe(recipe_id):
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000) 
+    app.run(debug=True, port=5001, host='0.0.0.0') 

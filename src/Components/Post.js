@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, Stack, Badge } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaCalendarAlt } from 'react-icons/fa';
 
 const Post = ({postId, title, author, content, tags, date}) => {
     const navigate = useNavigate();
@@ -11,31 +12,36 @@ const Post = ({postId, title, author, content, tags, date}) => {
     };
 
     return (
-        <>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></link>
-            <Card bg="secondary" style={{padding: '10px'}} onClick={handleClick}>
-                <Card.Body>
-                    <Card.Title style={{fontSize: '30px'}}>{title}</Card.Title>
-                    <Card.Subtitle>{author}</Card.Subtitle>
-                    <Card.Body style={{fontSize: '18px'}}>
-                        {content}
-                    </Card.Body>
-                </Card.Body>
-                <Card.Footer style={{fontSize: '15px'}}>
-                    <div className="d-flex">
-                        <div style={{paddingRight: '10px'}}>Ingredients:</div>
-                        <Stack direction="horizontal" gap={3}>
-                            {tags.map((tag, index) => (
-                                <Badge key={index} pill bg="light" text="dark">
-                                    {tag}
-                                </Badge>
-                            ))}
-                        </Stack>
-                        <div className="ms-auto">{date}</div>
+        <Card className="post-card" onClick={handleClick} style={{ cursor: 'pointer' }}>
+            <Card.Body className="p-4">
+                <Card.Title className="mb-3" style={{ fontSize: '1.75rem' }}>{title}</Card.Title>
+                <div className="d-flex align-items-center mb-3">
+                    <FaUser className="me-2" style={{ color: '#6c757d' }} />
+                    <Card.Subtitle className="text-muted mb-0">{author}</Card.Subtitle>
+                    <FaCalendarAlt className="ms-3 me-2" style={{ color: '#6c757d' }} />
+                    <small className="text-muted">{date}</small>
+                </div>
+                <Card.Text className="mb-4" style={{ 
+                    fontSize: '1.1rem',
+                    color: '#495057',
+                    lineHeight: '1.6'
+                }}>
+                    {content}
+                </Card.Text>
+                <div className="d-flex align-items-center flex-wrap">
+                    <div className="me-3 mb-2">
+                        <small className="text-muted">Ingredients:</small>
                     </div>
-                </Card.Footer>
-            </Card>
-        </>
+                    <Stack direction="horizontal" gap={2} className="flex-wrap">
+                        {tags.map((tag, index) => (
+                            <Badge key={index} pill bg="light" text="dark" className="px-3 py-2">
+                                {tag}
+                            </Badge>
+                        ))}
+                    </Stack>
+                </div>
+            </Card.Body>
+        </Card>
     );
 }
 
