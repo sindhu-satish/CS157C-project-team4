@@ -21,9 +21,9 @@ const Post = ({postId, title, author, content, tags, date}) => {
                         {content}
                     </Card.Body>
                 </Card.Body>
-                <Card.Footer style={{fontSize: '12px'}}>
+                <Card.Footer style={{fontSize: '15px'}}>
                     <div className="d-flex">
-                        <div style={{paddingRight: '10px'}}>Tags:</div>
+                        <div style={{paddingRight: '10px'}}>Ingredients:</div>
                         <Stack direction="horizontal" gap={3}>
                             {tags.map((tag, index) => (
                                 <Badge key={index} pill bg="light" text="dark">
