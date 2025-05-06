@@ -85,7 +85,6 @@ POST /auth/login - Login user
 GET /recipes - Get all recipes
 GET /recipes/sorted - Get recipes sorted by likes
 GET /recipes/search?q=query - Search recipes by title or ingredients
-GET /recipes/filter?ingredients=ingredient1&ingredients=ingredient2 - Filter recipes by ingredients
 GET /recipes/{recipe_id} - Get a specific recipe
 POST /recipes - Create a new recipe
 PUT /recipes/{recipe_id} - Update a recipe
@@ -96,7 +95,6 @@ DELETE /recipes/{recipe_id} - Delete a recipe
 ```bash
 POST /comments - Create a new comment
 GET /comments/{recipe_id} - Get comments for a recipe
-PUT /comments/{comment_id} - Update a comment
 DELETE /comments/{comment_id} - Delete a comment
 ```
 
