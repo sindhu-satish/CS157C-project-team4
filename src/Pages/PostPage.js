@@ -113,6 +113,30 @@ const PostPage = () => {
         }
     };
 
+    const handleDeleteComment = async (commentId) => {
+        if (window.confirm('Are you sure you want to delete this comment?')) {
+            try {
+                const response = await fetch(`${API_URL}/comments/${commentId}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete comment');
+                }
+
+                // Refresh comments after deletion
+                const commentsResponse = await fetch(`${API_URL}/comments/${postId}`);
+                if (!commentsResponse.ok) {
+                    throw new Error('Failed to fetch comments');
+                }
+                const commentsData = await commentsResponse.json();
+                setComments(commentsData);
+            } catch (err) {
+                setError(err.message);
+            }
+        }
+    };
+
     if (loading) {
         return (
             <>
@@ -183,7 +207,7 @@ const PostPage = () => {
                                 )}
                             </div>
                             <Stack direction="horizontal" gap={3} className="mb-3">
-                                <div className="h-2">Posted on {recipe.date}</div>
+                                <div className="h-2">Posted by {recipe.poster_name} on {recipe.date}</div>
                             </Stack>
                             <Stack direction="horizontal" gap={3} className="mb-4">
                                 {recipe.ingredients.map((ingredient, index) => (
@@ -290,15 +314,12 @@ const PostPage = () => {
                                         comments.map((comment) => (
                                             <Comment
                                                 key={comment.id}
+                                                id={comment.id}
                                                 author={comment.user_name}
                                                 content={comment.comment}
-                                                date={new Date(comment.created_at).toLocaleDateString('en-US', {
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric',
-                                                    hour: '2-digit',
-                                                    minute: '2-digit'
-                                                })}
+                                                date={new Date(comment.created_at).toLocaleString()}
+                                                onDelete={handleDeleteComment}
+                                                isOwner={loggedInUser && comment.user_name === loggedInUser.full_name}
                                             />
                                         ))
                                     )}

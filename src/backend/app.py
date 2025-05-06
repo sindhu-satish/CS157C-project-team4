@@ -116,32 +116,33 @@ def create_recipe():
         data = request.get_json()
         print("Received recipe data:", data)  # Debug print
         
-        # Generate a new UUID for the recipe
-        recipe_id = uuid.uuid4()
+        # Generate a new UUID for the recipe and convert it to string
+        recipe_id = str(uuid.uuid4())
         
         # Get current date
         current_date = datetime.now().strftime('%Y-%m-%d')
         
         # Prepare the query parameters
         params = [
-            recipe_id,  # Use the generated UUID
+            recipe_id,  # Use the string UUID
             data['title'],
             data['ingredients'],
             data['instructions'],
             0,  # likes start at 0
             current_date,
-            data.get('image_path', '')  # Optional image path
+            data.get('image_path', ''),  # Optional image path
+            data.get('user_id', '')  # Add user_id to the parameters
         ]
         
         print("Executing query with params:", params)  # Debug print
         
         # Insert the new recipe
         session.execute("""
-            INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path, user_id)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """, params)
         
-        return jsonify({"message": "Recipe created successfully", "id": str(recipe_id)}), 201
+        return jsonify({"message": "Recipe created successfully", "id": recipe_id}), 201
         
     except Exception as e:
         print("Error creating recipe:", str(e))  # Debug print
@@ -189,7 +190,7 @@ def update_recipe(recipe_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/recipes/<uuid:recipe_id>', methods=['DELETE'])
+@app.route('/recipes/<recipe_id>', methods=['DELETE'])
 def delete_recipe(recipe_id):
     """Delete a recipe"""
     try:
@@ -204,6 +205,7 @@ def delete_recipe(recipe_id):
         
         return jsonify({"message": "Recipe deleted successfully"}), 200
     except Exception as e:
+        print(f"Delete error: {str(e)}")  # Debug print
         return jsonify({"error": str(e)}), 500
 
 
@@ -354,7 +356,7 @@ def signup():
             return jsonify({"error": "Username already exists"}), 409
         
         # Create new user
-        user_id = uuid.uuid4()
+        user_id = str(uuid.uuid4())  # Convert UUID to string immediately
         query = """
         INSERT INTO users (id, username, email, password, full_name)
         VALUES (%s, %s, %s, %s, %s)
@@ -364,7 +366,7 @@ def signup():
         return jsonify({
             "message": "User registered successfully",
             "user": {
-                "id": str(user_id),
+                "id": user_id,
                 "username": username,
                 "email": email,
                 "full_name": full_name
@@ -410,6 +412,35 @@ def serve_static(filename):
     except Exception as e:
         print(f"Error serving static file: {e}")  # Debug print
         return jsonify({"error": str(e)}), 404
+
+@app.route('/recipes/search', methods=['GET'])
+def search_recipes():
+    """Search recipes by title or ingredients"""
+    try:
+        query = request.args.get('q', '').strip()
+        if not query:
+            return jsonify([]), 200
+
+        # Get all recipes and filter them
+        search_query = "SELECT * FROM recipes ALLOW FILTERING"
+        rows = session.execute(search_query)
+        
+        # Filter recipes that match the search term
+        matching_recipes = []
+        for row in rows:
+            # Check title
+            if query.lower() in row.title.lower():
+                matching_recipes.append(serialize_recipe(row))
+                continue
+                
+            # Check ingredients
+            if any(query.lower() in ingredient.lower() for ingredient in row.ingredients):
+                matching_recipes.append(serialize_recipe(row))
+        
+        return jsonify(matching_recipes), 200
+    except Exception as e:
+        print(f"Search error: {str(e)}")  # Debug print
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001, host='0.0.0.0') 

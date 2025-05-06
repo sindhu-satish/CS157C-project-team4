@@ -6,6 +6,8 @@ import NewPost from './Pages/NewPost';
 import PostPage from './Pages/PostPage';
 import AddRecipe from './Pages/AddRecipe';
 import EditRecipe from './Pages/EditRecipe';
+import MyRecipes from './Pages/MyRecipes';
+import SearchResults from './Pages/SearchResults';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/new-post" element={<AddRecipe />} />
         <Route path="/post/:postId" element={<PostPage />} />
         <Route path="/edit-recipe/:postId" element={<EditRecipe />} />
+        <Route path="/my-recipes" element={<MyRecipes />} />
+        <Route path="/search" element={<SearchResults />} />
       </Routes>
     </>
   );

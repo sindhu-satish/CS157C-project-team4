@@ -1,8 +1,9 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import { FaUser, FaClock } from 'react-icons/fa';
+import { FaUser, FaClock, FaTrash } from 'react-icons/fa';
+import Button from 'react-bootstrap/Button';
 
-const Comment = ({author, content, date}) => {
+const Comment = ({ id, author, content, date, onDelete, isOwner }) => {
     return (
         <Card className="mb-2 shadow-sm" style={{ borderRadius: '8px', backgroundColor: '#f8f9fa', border: 'none' }}>
             <Card.Body className="p-2">
@@ -15,9 +16,21 @@ const Comment = ({author, content, date}) => {
                             {author}
                         </Card.Title>
                     </div>
-                    <div className="ms-auto d-flex align-items-center text-muted">
-                        <FaClock size={11} className="me-1" />
-                        <small style={{ fontSize: '0.8rem' }}>{date}</small>
+                    <div className="ms-auto d-flex align-items-center">
+                        <div className="text-muted me-2">
+                            <FaClock size={11} className="me-1" />
+                            <small style={{ fontSize: '0.8rem' }}>{date}</small>
+                        </div>
+                        {isOwner && (
+                            <Button
+                                variant="link"
+                                className="p-0 text-danger"
+                                onClick={() => onDelete(id)}
+                                style={{ fontSize: '0.8rem' }}
+                            >
+                                <FaTrash size={12} />
+                            </Button>
+                        )}
                     </div>
                 </div>
                 <Card.Text style={{ 

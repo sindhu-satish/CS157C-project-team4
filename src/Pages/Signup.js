@@ -43,7 +43,7 @@ const Signup = () => {
             setPassword('');
             setEmail('');
             setFullName('');
-            navigate('/login');
+            navigate('/');
         } catch (err) {
             setError(err.message);
         }
