@@ -53,8 +53,28 @@ VALUES
 'pass1', 
 'Benjamin Le');
 
+-- Define recipe IDs
+CREATE TYPE IF NOT EXISTS recipe_ids (
+    spaghetti_id UUID,
+    pancakes_id UUID,
+    chicken_curry_id UUID,
+    grilled_cheese_id UUID,
+    caesar_salad_id UUID,
+    beef_tacos_id UUID,
+    french_toast_id UUID,
+    fried_rice_id UUID,
+    tomato_soup_id UUID,
+    mac_cheese_id UUID,
+    omelette_id UUID,
+    bbq_wings_id UUID,
+    veggie_stirfry_id UUID,
+    baked_salmon_id UUID,
+    chili_id UUID
+);
+
+-- Generate UUIDs for recipes
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Spaghetti Bolognese', 
+VALUES (11111111-1111-1111-1111-111111111111, 'Spaghetti Bolognese', 
     ['400g spaghetti', '500g ground beef', '2 cans (800g) tomato sauce', '1 onion, diced', '2 cloves garlic, minced', '2 tbsp olive oil', 'salt and pepper to taste'],
     ['Boil water in a large pot and cook spaghetti according to package instructions.',
      'Heat olive oil in a pan and sauté onions until translucent.',
@@ -66,7 +86,7 @@ VALUES (uuid(), 'Spaghetti Bolognese',
      'Serve hot with grated parmesan cheese.'], 125, '2024-01-15', 'static/images/spaghetti-bolognese.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Pancakes', 
+VALUES (22222222-2222-2222-2222-222222222222, 'Pancakes', 
     ['200g all-purpose flour', '2 eggs', '300ml milk', '2 tbsp sugar', '1 tsp baking powder', '1/2 tsp salt', '2 tbsp butter, melted', 'maple syrup for serving'],
     ['In a large bowl, whisk together flour, sugar, baking powder, and salt.',
      'In another bowl, beat eggs and mix in milk and melted butter.',
@@ -77,7 +97,7 @@ VALUES (uuid(), 'Pancakes',
      'Serve hot with maple syrup.'], 212, '2024-02-20', 'static/images/pancakes.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Chicken Curry', 
+VALUES (33333333-3333-3333-3333-333333333333, 'Chicken Curry', 
     ['500g chicken breast, cubed', '2 tbsp curry powder', '400ml coconut milk', '1 onion, chopped', '2 cloves garlic, minced', '1 tbsp ginger, grated', '2 tbsp vegetable oil', 'salt to taste'],
     ['Heat oil in a large pot over medium heat.',
      'Add onions and cook until soft.',
@@ -89,7 +109,7 @@ VALUES (uuid(), 'Chicken Curry',
      'Season with salt and serve with rice.'], 368, '2024-03-05', 'static/images/chicken-curry.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Grilled Cheese Sandwich', 
+VALUES (44444444-4444-4444-4444-444444444444, 'Grilled Cheese Sandwich', 
     ['4 slices of bread', '100g cheddar cheese, sliced', '2 tbsp butter, softened', '1 tsp garlic powder (optional)'],
     ['Butter one side of each bread slice.',
      'Place cheese slices between two bread slices, buttered sides out.',
@@ -99,7 +119,7 @@ VALUES (uuid(), 'Grilled Cheese Sandwich',
      'Cut in half and serve hot.'], 97, '2024-01-22', 'static/images/grilled-cheese.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Caesar Salad', 
+VALUES (55555555-5555-5555-5555-555555555555, 'Caesar Salad', 
     ['1 head romaine lettuce, chopped', '100g croutons', '50g parmesan cheese, grated', '100ml caesar dressing', '2 tbsp lemon juice', '1 clove garlic, minced', 'salt and pepper to taste'],
     ['Wash and dry romaine lettuce thoroughly.',
      'Tear lettuce into bite-sized pieces and place in a large bowl.',
@@ -110,7 +130,7 @@ VALUES (uuid(), 'Caesar Salad',
      'Serve immediately.'], 143, '2024-02-10', 'static/images/caesar-salad.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Beef Tacos', 
+VALUES (66666666-6666-6666-6666-666666666666, 'Beef Tacos', 
     ['8 corn tortillas', '500g ground beef', '1 packet taco seasoning', '1 onion, diced', '2 tomatoes, diced', '100g lettuce, shredded', '100g cheddar cheese, grated', '2 tbsp vegetable oil', 'sour cream and salsa for serving'],
     ['Heat oil in a large skillet over medium heat.',
      'Add diced onions and cook until soft.',
@@ -122,7 +142,7 @@ VALUES (uuid(), 'Beef Tacos',
      'Serve immediately.'], 259, '2024-03-15', 'static/images/beef-tacos.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'French Toast', 
+VALUES (77777777-7777-7777-7777-777777777777, 'French Toast', 
     ['8 slices of bread', '4 eggs', '200ml milk', '1 tsp vanilla extract', '1 tsp ground cinnamon', '2 tbsp sugar', '2 tbsp butter', 'maple syrup for serving'],
     ['In a shallow bowl, whisk together eggs, milk, vanilla, cinnamon, and sugar.',
      'Heat a large skillet or griddle over medium heat and melt butter.',
@@ -132,7 +152,7 @@ VALUES (uuid(), 'French Toast',
      'Serve hot with maple syrup and fresh fruit if desired.'], 185, '2024-02-28', 'static/images/french-toast.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Fried Rice', 
+VALUES (88888888-8888-8888-8888-888888888888, 'Fried Rice', 
     ['300g cooked rice (preferably day-old)', '2 eggs', '100g mixed vegetables (carrots, peas, corn)', '2 cloves garlic, minced', '2 tbsp soy sauce', '1 tbsp sesame oil', '2 tbsp vegetable oil', '2 spring onions, chopped', 'salt and pepper to taste'],
     ['Heat vegetable oil in a large wok or skillet over high heat.',
      'Add minced garlic and cook for 30 seconds.',
@@ -145,7 +165,7 @@ VALUES (uuid(), 'Fried Rice',
      'Serve hot.'], 472, '2024-03-01', 'static/images/fried-rice.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Tomato Soup', 
+VALUES (99999999-9999-9999-9999-999999999999, 'Tomato Soup', 
     ['1kg ripe tomatoes, chopped', '1 onion, diced', '2 cloves garlic, minced', '2 tbsp olive oil', '500ml vegetable stock', '100ml heavy cream', '1 tsp sugar', 'salt and pepper to taste', 'fresh basil for garnish'],
     ['Heat olive oil in a large pot over medium heat.',
      'Add onions and cook until soft.',
@@ -159,7 +179,7 @@ VALUES (uuid(), 'Tomato Soup',
      'Garnish with fresh basil and serve hot.'], 69, '2024-01-30', 'static/images/tomato-soup.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Mac and Cheese', 
+VALUES (aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa, 'Mac and Cheese', 
     ['300g elbow macaroni', '200g cheddar cheese, grated', '100g mozzarella cheese, grated', '50g parmesan cheese, grated', '500ml milk', '50g butter', '50g all-purpose flour', '1/2 tsp mustard powder', 'salt and pepper to taste', 'breadcrumbs for topping (optional)'],
     ['Preheat oven to 180°C (350°F).',
      'Cook macaroni according to package instructions, drain and set aside.',
@@ -174,7 +194,7 @@ VALUES (uuid(), 'Mac and Cheese',
      'Let cool slightly before serving.'], 311, '2024-02-15', 'static/images/mac-and-cheese.png');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Omelette', 
+VALUES (bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb, 'Omelette', 
     ['3 eggs', '2 tbsp milk', '50g cheese, grated', '50g ham, diced', '1 tbsp butter', 'salt and pepper to taste', 'fresh herbs (optional)'],
     ['Beat eggs and milk together in a bowl, season with salt and pepper.',
      'Heat butter in a non-stick skillet over medium heat.',
@@ -183,10 +203,10 @@ VALUES (uuid(), 'Omelette',
      'When eggs are almost set, fold the omelette in half.',
      'Cook for another minute until cheese melts.',
      'Slide onto a plate and garnish with fresh herbs.',
-     'Serve immediately.'], 248, '2024-03-10', 'static/images/omelette.jpg');
+     'Serve immediately.'], 248, '2024-03-10', 'static/images/omelette.png');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'BBQ Chicken Wings', 
+VALUES (cccccccc-cccc-cccc-cccc-cccccccccccc, 'BBQ Chicken Wings', 
     ['1kg chicken wings', '200ml BBQ sauce', '2 tbsp olive oil', '1 tsp garlic powder', '1 tsp onion powder', '1/2 tsp paprika', 'salt and pepper to taste'],
     ['Preheat oven to 200°C (400°F).',
      'Pat chicken wings dry with paper towels.',
@@ -199,7 +219,7 @@ VALUES (uuid(), 'BBQ Chicken Wings',
      'Serve hot with extra BBQ sauce for dipping.'], 384, '2024-02-25', 'static/images/bbq-wings.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Veggie Stir-Fry', 
+VALUES (dddddddd-dddd-dddd-dddd-dddddddddddd, 'Veggie Stir-Fry', 
     ['200g broccoli florets', '2 carrots, sliced', '1 bell pepper, sliced', '100g snow peas', '2 cloves garlic, minced', '1 tbsp ginger, grated', '3 tbsp soy sauce', '1 tbsp sesame oil', '2 tbsp vegetable oil', '1 tsp cornstarch', '2 tbsp water'],
     ['Mix cornstarch with water to make a slurry, set aside.',
      'Heat vegetable oil in a wok or large skillet over high heat.',
@@ -210,7 +230,7 @@ VALUES (uuid(), 'Veggie Stir-Fry',
      'Serve hot over rice or noodles.'], 193, '2024-03-08', 'static/images/veggie-stirfry.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Baked Salmon', 
+VALUES (eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee, 'Baked Salmon', 
     ['4 salmon fillets (about 150g each)', '2 tbsp olive oil', '1 lemon, sliced', '2 cloves garlic, minced', '1 tsp dried dill', 'salt and pepper to taste', 'fresh parsley for garnish'],
     ['Preheat oven to 200°C (400°F).',
      'Line a baking sheet with parchment paper.',
@@ -221,7 +241,7 @@ VALUES (uuid(), 'Baked Salmon',
      'Garnish with fresh parsley and serve hot.'], 423, '2024-02-18', 'static/images/baked-salmon.jpg');
 
 INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
-VALUES (uuid(), 'Chili', 
+VALUES (ffffffff-ffff-ffff-ffff-ffffffffffff, 'Chili', 
     ['500g ground beef', '1 onion, diced', '2 cloves garlic, minced', '2 cans (400g each) kidney beans', '2 cans (400g each) diced tomatoes', '2 tbsp chili powder', '1 tsp cumin', '1 tsp paprika', '2 tbsp vegetable oil', 'salt and pepper to taste', 'grated cheese and sour cream for serving'],
     ['Heat oil in a large pot over medium heat.',
      'Add onions and cook until soft.',
@@ -234,93 +254,108 @@ VALUES (uuid(), 'Chili',
      'Serve hot with grated cheese and sour cream.'], 337, '2024-03-12', 'static/images/chili.jpg');
 
 -- Sample comments for recipes
+-- Spaghetti Bolognese comments
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'John Doe', 'This recipe was fantastic! My family loved it!', '2024-01-16');
+VALUES (uuid(), 11111111-1111-1111-1111-111111111111, 'John Doe', 'This recipe was fantastic! My family loved it!', '2024-01-16');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Jane Smith', 'A classic! I added a bit of chili flakes for extra kick.', '2024-01-16');
+VALUES (uuid(), 11111111-1111-1111-1111-111111111111, 'Jane Smith', 'A classic! I added a bit of chili flakes for extra kick.', '2024-01-16');
+
+-- Pancakes comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 22222222-2222-2222-2222-222222222222, 'Emily Johnson', 'Delicious pancakes! Perfect for a weekend breakfast.', '2024-02-21');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Emily Johnson', 'Delicious pancakes! Perfect for a weekend breakfast.', '2024-02-21');
+VALUES (uuid(), 22222222-2222-2222-2222-222222222222, 'Michael Green', 'Fluffy and sweet! I used almond milk for a dairy-free option.', '2024-02-21');
+
+-- Chicken Curry comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 33333333-3333-3333-3333-333333333333, 'Sarah Brown', 'This curry was amazing! The coconut milk made it so creamy!', '2024-03-06');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Michael Green', 'Fluffy and sweet! I used almond milk for a dairy-free option.', '2024-02-21');
+VALUES (uuid(), 33333333-3333-3333-3333-333333333333, 'David White', 'Very flavorful! I added some bell peppers and it was perfect!', '2024-03-06');
+
+-- Grilled Cheese Sandwich comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 44444444-4444-4444-4444-444444444444, 'Laura Wilson', 'Simple but delicious! A great go-to for lunch.', '2024-01-23');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Sarah Brown', 'This curry was amazing! The coconut milk made it so creamy!', '2024-03-06');
+VALUES (uuid(), 44444444-4444-4444-4444-444444444444, 'Jack Harris', 'I love grilled cheese! The garlic powder made it even better.', '2024-01-23');
+
+-- Caesar Salad comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 55555555-5555-5555-5555-555555555555, 'Olivia Thompson', 'This salad was very fresh! I added grilled chicken for extra protein.', '2024-02-11');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'David White', 'Very flavorful! I added some bell peppers and it was perfect!', '2024-03-06');
+VALUES (uuid(), 55555555-5555-5555-5555-555555555555, 'Ryan Clark', 'Great recipe, I used homemade dressing instead of store-bought.', '2024-02-11');
+
+-- Beef Tacos comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 66666666-6666-6666-6666-666666666666, 'Ella Lewis', 'These tacos were fantastic! So quick and easy to make.', '2024-03-15');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Laura Wilson', 'Simple but delicious! A great go-to for lunch.', '2024-01-23');
+VALUES (uuid(), 66666666-6666-6666-6666-666666666666, 'Benjamin Lee', 'Perfect for Taco Tuesday! I added some avocado for extra flavor.', '2024-03-15');
+
+-- French Toast comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 77777777-7777-7777-7777-777777777777, 'Chris Harris', 'My kids love this for breakfast! It is sweet and filling.', '2024-02-28');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Jack Harris', 'I love grilled cheese! The garlic powder made it even better.', '2024-01-23');
+VALUES (uuid(), 77777777-7777-7777-7777-777777777777, 'Amanda King', 'Tastes just like the ones from my childhood. Will make again!', '2024-02-28');
+
+-- Fried Rice comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 88888888-8888-8888-8888-888888888888, 'Jacob Scott', 'Quick and easy, and the sesame oil adds a great flavor.', '2024-03-01');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Olivia Thompson', 'This salad was very fresh! I added grilled chicken for extra protein.', '2024-02-11');
+VALUES (uuid(), 88888888-8888-8888-8888-888888888888, 'Sophia Mitchell', 'Delicious! I used leftover rice, and it worked perfectly.', '2024-03-01');
+
+-- Tomato Soup comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), 99999999-9999-9999-9999-999999999999, 'William Young', 'This soup was so comforting! Perfect for a cold day.', '2024-01-30');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Ryan Clark', 'Great recipe, I used homemade dressing instead of store-bought.', '2024-02-11');
+VALUES (uuid(), 99999999-9999-9999-9999-999999999999, 'Grace Adams', 'The perfect tomato soup. I added basil, and it was amazing!', '2024-01-30');
+
+-- Mac and Cheese comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa, 'Mason Evans', 'This mac and cheese was cheesy and delicious! Will make again.', '2024-02-15');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Ella Lewis', 'These tacos were fantastic! So quick and easy to make.', '2024-03-15');
+VALUES (uuid(), aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa, 'Harper Nelson', 'Loved it! I used a blend of different cheeses, and it was fantastic.', '2024-02-15');
+
+-- Omelette comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb, 'Liam Perez', 'I made this omelette for breakfast and it was perfect!', '2024-03-10');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Benjamin Lee', 'Perfect for Taco Tuesday! I added some avocado for extra flavor.', '2024-03-15');
+VALUES (uuid(), bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb, 'Charlotte Carter', 'Great omelette! I added some spinach for extra flavor.', '2024-03-10');
+
+-- BBQ Chicken Wings comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), cccccccc-cccc-cccc-cccc-cccccccccccc, 'Daniel Reed', 'These wings were juicy and flavorful! Perfect for BBQ nights.', '2024-02-25');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Chris Harris', 'My kids love this for breakfast! It is sweet and filling.', '2024-02-28');
+VALUES (uuid(), cccccccc-cccc-cccc-cccc-cccccccccccc, 'Ella Foster', 'So tasty! I used a little extra BBQ sauce for more flavor.', '2024-02-25');
+
+-- Veggie Stir-Fry comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), dddddddd-dddd-dddd-dddd-dddddddddddd, 'Aiden Morris', 'This stir-fry was full of flavor! Easy and healthy.', '2024-03-08');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Amanda King', 'Tastes just like the ones from my childhood. Will make again!', '2024-02-28');
+VALUES (uuid(), dddddddd-dddd-dddd-dddd-dddddddddddd, 'Scarlett Stewart', 'Great for meal prep! Loved the combination of vegetables.', '2024-03-08');
+
+-- Baked Salmon comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee, 'Zoe Ross', 'So delicious! The salmon was perfectly cooked, and the lemon was a great touch.', '2024-02-18');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Jacob Scott', 'Quick and easy, and the sesame oil adds a great flavor.', '2024-03-01');
+VALUES (uuid(), eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee, 'Lucas Bell', 'This was an easy yet elegant dish. I loved the freshness of the salmon.', '2024-02-18');
+
+-- Chili comments
+INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
+VALUES (uuid(), ffffffff-ffff-ffff-ffff-ffffffffffff, 'Ethan Turner', 'Delicious chili! The flavors were perfect for a cozy evening.', '2024-03-12');
 
 INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Sophia Mitchell', 'Delicious! I used leftover rice, and it worked perfectly.', '2024-03-01');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'William Young', 'This soup was so comforting! Perfect for a cold day.', '2024-01-30');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Grace Adams', 'The perfect tomato soup. I added basil, and it was amazing!', '2024-01-30');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Mason Evans', 'This mac and cheese was cheesy and delicious! Will make again.', '2024-02-15');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Harper Nelson', 'Loved it! I used a blend of different cheeses, and it was fantastic.', '2024-02-15');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Liam Perez', 'I made this omelette for breakfast and it was perfect!', '2024-03-10');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Charlotte Carter', 'Great omelette! I added some spinach for extra flavor.', '2024-03-10');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Daniel Reed', 'These wings were juicy and flavorful! Perfect for BBQ nights.', '2024-02-25');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Ella Foster', 'So tasty! I used a little extra BBQ sauce for more flavor.', '2024-02-25');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Aiden Morris', 'This stir-fry was full of flavor! Easy and healthy.', '2024-03-08');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Scarlett Stewart', 'Great for meal prep! Loved the combination of vegetables.', '2024-03-08');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Zoe Ross', 'So delicious! The salmon was perfectly cooked, and the lemon was a great touch.', '2024-02-18');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Lucas Bell', 'This was an easy yet elegant dish. I loved the freshness of the salmon.', '2024-02-18');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Ethan Turner', 'Delicious chili! The flavors were perfect for a cozy evening.', '2024-03-12');
-
-INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
-VALUES (uuid(), uuid(), 'Mia Harris', 'Very hearty and flavorful! I added extra beans for more texture.', '2024-03-12');
+VALUES (uuid(), ffffffff-ffff-ffff-ffff-ffffffffffff, 'Mia Harris', 'Very hearty and flavorful! I added extra beans for more texture.', '2024-03-12');
 
