@@ -75,33 +75,276 @@ The API will be available at `http://localhost:5001`
 ## API Endpoints
 
 ### Authentication
+
+#### Register a new user
 ```bash
-POST /auth/signup - Register a new user
-POST /auth/login - Login user
+# Request
+curl -X POST http://localhost:5001/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "johndoe",
+    "email": "john@example.com",
+    "password": "password123",
+    "full_name": "John Doe"
+  }'
+
+# Response
+{
+  "message": "User registered successfully",
+  "user": {
+    "id": "uuid-string",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "full_name": "John Doe"
+  }
+}
+```
+
+#### Login user
+```bash
+# Request
+curl -X POST http://localhost:5001/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "johndoe",
+    "password": "password123"
+  }'
+
+# Response
+{
+  "message": "Login successful",
+  "user": {
+    "id": "uuid-string",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "full_name": "John Doe"
+  }
+}
 ```
 
 ### Recipes
+
+#### Get all recipes
 ```bash
-GET /recipes - Get all recipes
-GET /recipes/sorted - Get recipes sorted by likes
-GET /recipes/search?q=query - Search recipes by title or ingredients
-GET /recipes/{recipe_id} - Get a specific recipe
-POST /recipes - Create a new recipe
-PUT /recipes/{recipe_id} - Update a recipe
-DELETE /recipes/{recipe_id} - Delete a recipe
+# Request
+curl http://localhost:5001/recipes
+
+# Response
+[
+  {
+    "id": "uuid-string",
+    "title": "Recipe Title",
+    "ingredients": ["ingredient1", "ingredient2"],
+    "instructions": ["step1", "step2"],
+    "likes": 0,
+    "date": "2024-03-21",
+    "image_path": "static/images/recipe.jpg",
+    "user_id": "user-uuid",
+    "poster_name": "John Doe"
+  }
+]
+```
+
+#### Get recipes sorted by likes
+```bash
+# Request
+curl http://localhost:5001/recipes/sorted
+
+# Response
+[
+  {
+    "id": "uuid-string",
+    "title": "Recipe Title",
+    "ingredients": ["ingredient1", "ingredient2"],
+    "instructions": ["step1", "step2"],
+    "likes": 10,
+    "date": "2024-03-21",
+    "image_path": "static/images/recipe.jpg",
+    "user_id": "user-uuid",
+    "poster_name": "John Doe"
+  }
+]
+```
+
+#### Search recipes
+```bash
+# Request
+curl "http://localhost:5001/recipes/search?q=chicken"
+
+# Response
+[
+  {
+    "id": "uuid-string",
+    "title": "Chicken Recipe",
+    "ingredients": ["chicken", "spices"],
+    "instructions": ["step1", "step2"],
+    "likes": 5,
+    "date": "2024-03-21",
+    "image_path": "static/images/recipe.jpg",
+    "user_id": "user-uuid",
+    "poster_name": "John Doe"
+  }
+]
+```
+
+#### Filter recipes by ingredients
+```bash
+# Request
+curl "http://localhost:5001/recipes/filter?ingredients=chicken&ingredients=rice"
+
+# Response
+[
+  {
+    "id": "uuid-string",
+    "title": "Chicken Rice",
+    "ingredients": ["chicken", "rice", "spices"],
+    "instructions": ["step1", "step2"],
+    "likes": 3,
+    "date": "2024-03-21",
+    "image_path": "static/images/recipe.jpg",
+    "user_id": "user-uuid",
+    "poster_name": "John Doe"
+  }
+]
+```
+
+#### Get specific recipe
+```bash
+# Request
+curl http://localhost:5001/recipes/{recipe_id}
+
+# Response
+{
+  "id": "uuid-string",
+  "title": "Recipe Title",
+  "ingredients": ["ingredient1", "ingredient2"],
+  "instructions": ["step1", "step2"],
+  "likes": 0,
+  "date": "2024-03-21",
+  "image_path": "static/images/recipe.jpg",
+  "user_id": "user-uuid",
+  "poster_name": "John Doe"
+}
+```
+
+#### Create new recipe
+```bash
+# Request
+curl -X POST http://localhost:5001/recipes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "New Recipe",
+    "ingredients": ["ingredient1", "ingredient2"],
+    "instructions": ["step1", "step2"],
+    "image_path": "static/images/recipe.jpg",
+    "user_id": "user-uuid"
+  }'
+
+# Response
+{
+  "message": "Recipe created successfully",
+  "id": "uuid-string"
+}
+```
+
+#### Update recipe
+```bash
+# Request
+curl -X PUT http://localhost:5001/recipes/{recipe_id} \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Updated Recipe",
+    "ingredients": ["new ingredient1", "new ingredient2"],
+    "instructions": ["new step1", "new step2"],
+    "likes": 5
+  }'
+
+# Response
+{
+  "message": "Recipe updated successfully"
+}
+```
+
+#### Delete recipe
+```bash
+# Request
+curl -X DELETE http://localhost:5001/recipes/{recipe_id}
+
+# Response
+{
+  "message": "Recipe deleted successfully"
+}
 ```
 
 ### Comments
+
+#### Create comment
 ```bash
-POST /comments - Create a new comment
-GET /comments/{recipe_id} - Get comments for a recipe
-DELETE /comments/{comment_id} - Delete a comment
+# Request
+curl -X POST http://localhost:5001/comments \
+  -H "Content-Type: application/json" \
+  -d '{
+    "recipe_id": "recipe-uuid",
+    "user_name": "John Doe",
+    "comment": "Great recipe!"
+  }'
+
+# Response
+{
+  "message": "Comment created successfully",
+  "id": "comment-uuid"
+}
+```
+
+#### Get comments for recipe
+```bash
+# Request
+curl http://localhost:5001/comments/{recipe_id}
+
+# Response
+[
+  {
+    "id": "comment-uuid",
+    "recipe_id": "recipe-uuid",
+    "user_name": "John Doe",
+    "comment": "Great recipe!",
+    "created_at": "2024-03-21T12:00:00"
+  }
+]
+```
+
+#### Delete comment
+```bash
+# Request
+curl -X DELETE http://localhost:5001/comments/{comment_id}
+
+# Response
+{
+  "message": "Comment deleted successfully"
+}
 ```
 
 ### Images
+
+#### Upload image
 ```bash
-POST /upload-image - Upload a recipe image
-GET /static/images/{filename} - Access uploaded images
+# Request
+curl -X POST http://localhost:5001/upload-image \
+  -F "image=@/path/to/local/image.jpg"
+
+# Response
+{
+  "image_path": "static/images/uploaded-image.jpg"
+}
+```
+
+#### Access image
+```bash
+# Request
+curl http://localhost:5001/static/images/{filename}
+
+# Response
+[Binary image data]
 ```
 
 ## Project Structure
