@@ -66,7 +66,7 @@ const PostPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    recipe_id: parseInt(postId),
+                    recipe_id: postId,
                     user_name: isAnonymous ? 'Anonymous' : userName,
                     comment: comment.trim()
                 }),

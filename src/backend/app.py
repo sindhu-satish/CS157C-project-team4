@@ -210,6 +210,9 @@ def create_comment():
         # Generate a unique ID for the comment
         comment_id = uuid.uuid4()
         
+        # Convert recipe_id to UUID
+        recipe_id = uuid.UUID(data['recipe_id'])
+        
         # Insert the new comment into the comments table
         query = """
         INSERT INTO comments (id, recipe_id, user_name, comment, created_at)
@@ -217,14 +220,16 @@ def create_comment():
         """
         params = [
             comment_id,
-            data['recipe_id'],
+            recipe_id,  # Use the converted UUID
             data['user_name'],
             data['comment'],
             datetime.now()
         ]
         
         session.execute(query, params)
-        return jsonify({"message": "Comment created successfully", "id": comment_id}), 201
+        return jsonify({"message": "Comment created successfully", "id": str(comment_id)}), 201
+    except ValueError as e:
+        return jsonify({"error": "Invalid recipe ID format"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
