@@ -5,6 +5,7 @@ import Login from './Pages/Login';
 import NewPost from './Pages/NewPost';
 import PostPage from './Pages/PostPage';
 import AddRecipe from './Pages/AddRecipe';
+import EditRecipe from './Pages/EditRecipe';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/new-post" element={<AddRecipe />} />
         <Route path="/post/:postId" element={<PostPage />} />
+        <Route path="/edit-recipe/:postId" element={<EditRecipe />} />
       </Routes>
     </>
   );

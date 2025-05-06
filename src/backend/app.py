@@ -29,6 +29,14 @@ session = cluster.connect('cs157')
 
 def serialize_recipe(row):
     """Convert a Cassandra row to a dictionary"""
+    # Get user's name from users table
+    user_name = "Anonymous"
+    if row.user_id:
+        user_query = "SELECT full_name FROM users WHERE id = %s"
+        user_row = session.execute(user_query, [row.user_id]).one()
+        if user_row:
+            user_name = user_row.full_name
+
     recipe = {
         'id': str(row.id),  # Convert UUID to string
         'title': row.title,
@@ -36,7 +44,9 @@ def serialize_recipe(row):
         'instructions': row.instructions,
         'likes': row.likes,
         'date': str(row.date) if row.date else None,
-        'image_path': row.image_path
+        'image_path': row.image_path,
+        'user_id': row.user_id,
+        'poster_name': user_name
     }
     print("Serialized recipe:", recipe)
     print("Instructions type:", type(recipe['instructions']))
@@ -137,7 +147,7 @@ def create_recipe():
         print("Error creating recipe:", str(e))  # Debug print
         return jsonify({"error": str(e)}), 500
 
-@app.route('/recipes/<uuid:recipe_id>', methods=['GET'])
+@app.route('/recipes/<recipe_id>', methods=['GET'])
 def get_recipe(recipe_id):
     """Get a specific recipe by ID"""
     try:
@@ -151,7 +161,7 @@ def get_recipe(recipe_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/recipes/<uuid:recipe_id>', methods=['PUT'])
+@app.route('/recipes/<recipe_id>', methods=['PUT'])
 def update_recipe(recipe_id):
     """Update a recipe"""
     try:
@@ -208,10 +218,7 @@ def create_comment():
             return jsonify({"error": "Missing required fields"}), 400
         
         # Generate a unique ID for the comment
-        comment_id = uuid.uuid4()
-        
-        # Convert recipe_id to UUID
-        recipe_id = uuid.UUID(data['recipe_id'])
+        comment_id = str(uuid.uuid4())
         
         # Insert the new comment into the comments table
         query = """
@@ -220,20 +227,18 @@ def create_comment():
         """
         params = [
             comment_id,
-            recipe_id,  # Use the converted UUID
+            data['recipe_id'],  # Use the string ID directly
             data['user_name'],
             data['comment'],
             datetime.now()
         ]
         
         session.execute(query, params)
-        return jsonify({"message": "Comment created successfully", "id": str(comment_id)}), 201
-    except ValueError as e:
-        return jsonify({"error": "Invalid recipe ID format"}), 400
+        return jsonify({"message": "Comment created successfully", "id": comment_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/comments/<uuid:recipe_id>', methods=['GET'])
+@app.route('/comments/<recipe_id>', methods=['GET'])
 def get_comments_for_recipe(recipe_id):
     """Fetch all comments for a specific recipe"""
     try:
@@ -252,7 +257,7 @@ def get_comments_for_recipe(recipe_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/comments/<uuid:comment_id>', methods=['PUT'])
+@app.route('/comments/<comment_id>', methods=['PUT'])
 def update_comment(comment_id):
     """Update a specific comment"""
     try:
@@ -277,7 +282,7 @@ def update_comment(comment_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/comments/<uuid:comment_id>', methods=['DELETE'])
+@app.route('/comments/<comment_id>', methods=['DELETE'])
 def delete_comment(comment_id):
     """Delete a specific comment"""
     try:

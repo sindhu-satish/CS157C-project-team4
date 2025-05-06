@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Alert, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,16 @@ const LoginButton = () => {
     const [user, setUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+
+    // Check for existing login on component mount
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setUser(parsedUser);
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -32,6 +42,9 @@ const LoginButton = () => {
                 throw new Error(data.error || 'Login failed');
             }
             
+            // Store user data in localStorage
+            localStorage.setItem('user', JSON.stringify(data.user));
+            
             setIsLoggedIn(true);
             setUser(data.user);
             setUsername('');
@@ -48,6 +61,8 @@ const LoginButton = () => {
     };
 
     const handleLogout = () => {
+        // Remove user data from localStorage
+        localStorage.removeItem('user');
         setIsLoggedIn(false);
         setUser(null);
     };
