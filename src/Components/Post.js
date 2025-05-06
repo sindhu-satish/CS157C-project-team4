@@ -8,7 +8,6 @@ const API_URL = "http://localhost:5001";
 const Post = ({postId, title, author, content, tags, date, image_path}) => {
     const navigate = useNavigate();
     
-    //change this later when i set up routes
     const handleClick = () => {
         navigate(`/post/${postId}`);
     };
@@ -51,7 +50,7 @@ const Post = ({postId, title, author, content, tags, date, image_path}) => {
                     </Col>
                     <Col md={4} className="d-flex align-items-center justify-content-center">
                         <img 
-                            src={image_path ? `${API_URL}/${image_path}` : `${API_URL}/static/images/default-recipe.jpg`}
+                            src={`${API_URL}/${image_path}`}
                             alt={title}
                             style={{
                                 width: '100%',
@@ -59,10 +58,6 @@ const Post = ({postId, title, author, content, tags, date, image_path}) => {
                                 objectFit: 'cover',
                                 borderRadius: '8px',
                                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                            }}
-                            onError={(e) => {
-                                console.error('Image failed to load:', e);
-                                e.target.src = `${API_URL}/static/images/default-recipe.jpg`;
                             }}
                         />
                     </Col>

@@ -161,7 +161,7 @@ const PostPage = () => {
                         </Col>
                         <Col md={4} className="d-flex align-items-center justify-content-center">
                             <img 
-                                src={recipe.image_path ? `${API_URL}/${recipe.image_path}` : `${API_URL}/static/images/default-recipe.jpg`}
+                                src={`${API_URL}/${recipe.image_path}`}
                                 alt={recipe.title}
                                 style={{
                                     width: '100%',
@@ -169,10 +169,6 @@ const PostPage = () => {
                                     objectFit: 'cover',
                                     borderRadius: '8px',
                                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                                }}
-                                onError={(e) => {
-                                    console.error('Image failed to load:', e);
-                                    e.target.src = `${API_URL}/static/images/default-recipe.jpg`;
                                 }}
                             />
                         </Col>

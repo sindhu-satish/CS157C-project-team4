@@ -6,14 +6,22 @@ import os
 from datetime import datetime
 import uuid
 import bcrypt
+from werkzeug.utils import secure_filename
+import base64
 
 # Get the absolute path to the static directory in the root folder
 static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'static'))
+images_dir = os.path.join(static_dir, 'images')
 print(f"Static directory path: {static_dir}")  # Debug print
 
-app = Flask(__name__, static_folder=static_dir)
-CORS(app, origins=["http://localhost:3000", "http://localhost:5000", "http://127.0.0.1:5000"])
+# Create images directory if it doesn't exist
+os.makedirs(images_dir, exist_ok=True)
 
+# Default image path (relative to static directory)
+DEFAULT_IMAGE = 'images/default-recipe.jpg'
+
+app = Flask(__name__, static_folder=static_dir)
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://localhost:5000", "http://127.0.0.1:5000"]}})
 
 auth_provider = PlainTextAuthProvider(username='cassandra', password='cassandra')
 cluster = Cluster(['localhost'], auth_provider=auth_provider)
@@ -22,7 +30,7 @@ session = cluster.connect('cs157')
 def serialize_recipe(row):
     """Convert a Cassandra row to a dictionary"""
     recipe = {
-        'id': row.id,
+        'id': str(row.id),  # Convert UUID to string
         'title': row.title,
         'ingredients': row.ingredients,
         'instructions': row.instructions,
@@ -95,37 +103,41 @@ def filter_recipes():
 def create_recipe():
     """Create a new recipe"""
     try:
-        data = request.json
-        required_fields = ['title', 'ingredients', 'instructions']
+        data = request.get_json()
+        print("Received recipe data:", data)  # Debug print
         
-        if not all(field in data for field in required_fields):
-            return jsonify({"error": "Missing required fields"}), 400
+        # Generate a new UUID for the recipe
+        recipe_id = uuid.uuid4()
         
-        # Get the next available ID
-        query = "SELECT MAX(id) FROM recipes"
-        result = session.execute(query)
-        next_id = (result[0].system_max_id or 0) + 1
+        # Get current date
+        current_date = datetime.now().strftime('%Y-%m-%d')
         
-        # Insert the new recipe
-        query = """
-        INSERT INTO recipes (id, title, ingredients, instructions, likes, date)
-        VALUES (%s, %s, %s, %s, %s, %s)
-        """
+        # Prepare the query parameters
         params = [
-            next_id,
+            recipe_id,  # Use the generated UUID
             data['title'],
             data['ingredients'],
             data['instructions'],
-            data.get('likes', 0),
-            datetime.now().strftime('%Y-%m-%d')
+            0,  # likes start at 0
+            current_date,
+            data.get('image_path', '')  # Optional image path
         ]
         
-        session.execute(query, params)
-        return jsonify({"message": "Recipe created successfully", "id": next_id}), 201
+        print("Executing query with params:", params)  # Debug print
+        
+        # Insert the new recipe
+        session.execute("""
+            INSERT INTO recipes (id, title, ingredients, instructions, likes, date, image_path)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, params)
+        
+        return jsonify({"message": "Recipe created successfully", "id": str(recipe_id)}), 201
+        
     except Exception as e:
+        print("Error creating recipe:", str(e))  # Debug print
         return jsonify({"error": str(e)}), 500
 
-@app.route('/recipes/<int:recipe_id>', methods=['GET'])
+@app.route('/recipes/<uuid:recipe_id>', methods=['GET'])
 def get_recipe(recipe_id):
     """Get a specific recipe by ID"""
     try:
@@ -139,7 +151,7 @@ def get_recipe(recipe_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/recipes/<int:recipe_id>', methods=['PUT'])
+@app.route('/recipes/<uuid:recipe_id>', methods=['PUT'])
 def update_recipe(recipe_id):
     """Update a recipe"""
     try:
@@ -167,7 +179,7 @@ def update_recipe(recipe_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/recipes/<int:recipe_id>', methods=['DELETE'])
+@app.route('/recipes/<uuid:recipe_id>', methods=['DELETE'])
 def delete_recipe(recipe_id):
     """Delete a recipe"""
     try:
@@ -216,7 +228,7 @@ def create_comment():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/comments/<int:recipe_id>', methods=['GET'])
+@app.route('/comments/<uuid:recipe_id>', methods=['GET'])
 def get_comments_for_recipe(recipe_id):
     """Fetch all comments for a specific recipe"""
     try:
@@ -351,12 +363,40 @@ def signup():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/upload-image', methods=['POST'])
+def upload_image():
+    """Handle image uploads"""
+    try:
+        if 'image' not in request.files:
+            return jsonify({"error": "No image file provided"}), 400
+        
+        file = request.files['image']
+        if file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
+        
+        if file:
+            # Generate a unique filename
+            filename = secure_filename(file.filename)
+            unique_filename = f"{uuid.uuid4()}_{filename}"
+            file_path = os.path.join(images_dir, unique_filename)
+            
+            # Save the file
+            file.save(file_path)
+            
+            # Return the relative path that will be stored in the database
+            relative_path = f"static/images/{unique_filename}"
+            return jsonify({"image_path": relative_path}), 200
+            
+    except Exception as e:
+        print(f"Error uploading image: {e}")  # Debug print
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     """Serve static files from the static directory"""
-    print(f"Serving static file: {filename} from {app.static_folder}")  # Debug print
+    print(f"Serving static file: {filename} from {static_dir}")  # Debug print
     try:
-        return send_from_directory(app.static_folder, filename)
+        return send_from_directory(static_dir, filename)
     except Exception as e:
         print(f"Error serving static file: {e}")  # Debug print
         return jsonify({"error": str(e)}), 404
