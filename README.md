@@ -40,11 +40,6 @@ cqlsh
 source 'src/database.cql';
 ```
 
-This will:
-- Create the 'cs157' keyspace
-- Create the 'recipes' table
-- Insert the sample recipe data
-
 ## Running the API
 
 1. Start the Flask application:
@@ -52,88 +47,78 @@ This will:
 python app.py
 ```
 
-The API will be available at `http://localhost:5000`
+The API will be available at `http://localhost:5001`
+
+## Features
+
+### User Management
+- User registration with username, email, password, and full name
+- User login with username and password
+
+### Recipe Management
+- Create new recipes with title, ingredients, instructions, and optional image
+- View all recipes
+- View recipes sorted by likes
+- Search recipes by title or ingredients
+- Filter recipes by specific ingredients
+- View individual recipe details
+- Update existing recipes
+- Delete recipes
+- Upload recipe images
+
+### Comments
+- Add comments to recipes
+- View comments for a specific recipe
+- Update comments
+- Delete comments
 
 ## API Endpoints
 
-### Get All Recipes
+### Authentication
 ```bash
-GET http://localhost:5000/recipes
+POST /auth/signup - Register a new user
+POST /auth/login - Login user
 ```
 
-### Get Recipes Sorted by Likes
+### Recipes
 ```bash
-GET http://localhost:5000/recipes/sorted
+GET /recipes - Get all recipes
+GET /recipes/sorted - Get recipes sorted by likes
+GET /recipes/search?q=query - Search recipes by title or ingredients
+GET /recipes/filter?ingredients=ingredient1&ingredients=ingredient2 - Filter recipes by ingredients
+GET /recipes/{recipe_id} - Get a specific recipe
+POST /recipes - Create a new recipe
+PUT /recipes/{recipe_id} - Update a recipe
+DELETE /recipes/{recipe_id} - Delete a recipe
 ```
 
-### Filter Recipes by Ingredients
+### Comments
 ```bash
-GET http://localhost:5000/recipes/filter?ingredients=chicken&ingredients=rice
+POST /comments - Create a new comment
+GET /comments/{recipe_id} - Get comments for a recipe
+PUT /comments/{comment_id} - Update a comment
+DELETE /comments/{comment_id} - Delete a comment
 ```
 
-### Create a New Recipe
+### Images
 ```bash
-POST http://localhost:5000/recipes
-Content-Type: application/json
-
-{
-  "title": "New Recipe",
-  "ingredients": ["ingredient1", "ingredient2"],
-  "instructions": ["step1", "step2"],
-  "likes": 0
-}
+POST /upload-image - Upload a recipe image
+GET /static/images/{filename} - Access uploaded images
 ```
 
-### Get a Specific Recipe
-```bash
-GET http://localhost:5000/recipes/{recipe_id}
+## Project Structure
+
 ```
-
-### Update a Recipe
-```bash
-PUT http://localhost:5000/recipes/{recipe_id}
-Content-Type: application/json
-
-{
-  "title": "Updated Title",
-  "ingredients": ["new ingredient1", "new ingredient2"],
-  "instructions": ["new step1", "new step2"],
-  "likes": 100
-}
-```
-
-### Delete a Recipe
-```bash
-DELETE http://localhost:5000/recipes/{recipe_id}
-```
-
-## Example Usage
-
-1. Get all recipes:
-```bash
-curl http://localhost:5000/recipes
-```
-
-2. Get recipes sorted by likes:
-```bash
-curl http://localhost:5000/recipes/sorted
-```
-
-3. Filter recipes by ingredients:
-```bash
-curl "http://localhost:5000/recipes/filter?ingredients=chicken&ingredients=rice"
-```
-
-4. Create a new recipe:
-```bash
-curl -X POST http://localhost:5000/recipes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "Chicken Pasta",
-    "ingredients": ["chicken", "pasta", "tomato sauce"],
-    "instructions": ["Cook pasta", "Cook chicken", "Mix together"],
-    "likes": 0
-  }'
+.
+├── README.md
+├── requirements.txt
+├── src/
+│   ├── database.cql
+│   ├── backend/
+│   │   ├── app.py
+│   │   └── download_images.py
+│   └── static/
+│       └── images/
 ```
 
 ## Troubleshooting
@@ -146,23 +131,11 @@ curl -X POST http://localhost:5000/recipes \
 2. If the API is not connecting to Cassandra:
    - Verify Cassandra is running and accessible
    - Check if the keyspace 'cs157' exists
-   - Verify the table 'recipes' exists in the keyspace
+   - Verify the tables exist in the keyspace
 
 3. If you get CORS errors:
    - Make sure you're accessing the API from an allowed origin
    - Check if the Flask-CORS package is properly installed
-
-## Project Structure
-
-```
-.
-├── README.md
-├── requirements.txt
-├── src/
-│   ├── database.cql
-│   ├──backend
-│      └── app.py
-```
 
 ## Contributing
 
